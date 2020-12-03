@@ -1,0 +1,38 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.sasdutta'
+version '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+}
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'apache.poi.poc.App'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes "Main-Class": application.getMainClass()
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
